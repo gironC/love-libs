@@ -63,7 +63,7 @@ function Timer:cancel(id)
 end
 
 function Timer:reset(id)
-  local tarea = self._find(id)
+  local tarea = self:_find(id)
   if tarea then
     tarea.cont = 0
     return true

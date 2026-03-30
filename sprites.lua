@@ -27,20 +27,20 @@ Sprites.new = function(img, rows, cols, width, height, animaciones)
 end
 
 function Sprites:update(dt)
-  local retorno = {frame = 1, cambio = false}
+  local retorno = {frame = 1, change = false}
   self.time = self.time + dt
   local anim = self.animaciones[self.currentAnim]
   if self.time >= anim.delay then
     self.time = 0
     self.frame = self.frame + 1
     retorno.frame = self.frame
-    retorno.cambio = true
+    retorno.change = true
     if self.frame > anim.frames then
       self.frame = 1
       if not anim.loop then
-        self.currentAnim = encontrarSiguienteAnim(self.animaciones, anim.siguienteAnim)
+        self.currentAnim = findNext(self.animaciones, anim.siguienteAnim)
         if self.currentAnim == 0 then
-          retorno.cambio = false
+          retorno.change = false
           retorno.frame = 0
         end
       end
@@ -49,7 +49,7 @@ function Sprites:update(dt)
   return retorno
 end
 
-function Sprites:cambiarAnimacion(nombre)
+function Sprites:change(nombre)
   for a = 1, #self.animaciones do
     if self.animaciones[a].nombre == nombre then
       self.currentAnim = a
@@ -58,7 +58,7 @@ function Sprites:cambiarAnimacion(nombre)
   end
 end
 
-function Sprites:reiniciarAnimacion()
+function Sprites:reset()
   self.frame = 1
   self.time = 0
 end
@@ -68,7 +68,7 @@ function Sprites:draw(x, y, dir, pX, pY)
   love.graphics.draw(self.img, quad, x, y, 0, dir, 1, pX, pY)
 end
 
-function encontrarSiguienteAnim(lista, nombre)
+function findNext(lista, nombre)
   for a = 1, #lista do
     if lista[a].nombre == nombre then
       return a
