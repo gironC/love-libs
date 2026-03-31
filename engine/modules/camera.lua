@@ -1,8 +1,8 @@
-Camara = {}
-Camara.__index = Camara
+Camera = {}
+Camera.__index = Camera
 
-Camara.new = function(vW, vH)
-  local self = setmetatable({}, Camara)
+Camera.new = function(vW, vH)
+  local self = setmetatable({}, Camera)
   self.vW = vW
   self.vH = vH
   self.x = 0
@@ -17,17 +17,17 @@ Camara.new = function(vW, vH)
   return self
 end
 
-function Camara:setSmooth(smooth)
+function Camera:setSmooth(smooth)
   self.smooth = smooth
 end
 
-function Camara:setTarget(target)
+function Camera:setTarget(target)
   self.target = target
   self.x = target.x
   self.y = target.y
 end
 
-function Camara:resize(w, h)
+function Camera:resize(w, h)
   --esto se va a ejecutar en el love.resize
   local scaleX = w / self.vW
   local scaleY = h / self.vH
@@ -36,7 +36,7 @@ function Camara:resize(w, h)
   self.offsetY = (h - self.vH * self.escala) / 2
 end
 
-function Camara:update(dt)
+function Camera:update(dt)
   if self.target then
     local tx = self.target.x
     local ty = self.target.y
@@ -68,7 +68,7 @@ function Camara:update(dt)
   self.mouseY = math.floor(my)
 end
 
-function Camara:push()
+function Camera:push()
   love.graphics.clear(0, 0, 0)
   love.graphics.push()
   love.graphics.setScissor(self.offsetX, self.offsetY, self.vW * self.escala, self.vH * self.escala)
@@ -84,7 +84,7 @@ function Camara:push()
   end
 end
 
-function Camara:pop()
+function Camera:pop()
   love.graphics.setScissor()
   love.graphics.pop()
 end
