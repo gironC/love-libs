@@ -1,7 +1,7 @@
 local stateManager = require('engine.core.statemanager')
 local camera = require('engine.modules.camera')
 local timer = require('engine.modules.timer')
-require('engine.modules.sprites')
+local sprites = require('engine.modules.sprites')
 
 local LoveKey = {}
 
