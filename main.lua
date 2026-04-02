@@ -1,12 +1,15 @@
 e = require('lovekit.core.main')
 
 function love.load()
-  e:start(800, 450)
+  love.graphics.setDefaultFilter('nearest', 'nearest')
+  --add assets example
+  e.assets.loadImage('title', 'title.png')
   --[[
     all the scenes must be saved in game/scenes, and in the :change function
     the name must match with the file name, in this case the first scene
     is Title scene, wich is saved in game/scenes/title.lua
   ]]--
+  e:start(800, 450)
   e.state:change('title')
 end
 

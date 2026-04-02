@@ -5,11 +5,17 @@ local sprites = require('lovekit.modules.sprites')
 
 local LoveKey = {}
 
-function LoveKey:start(vWidth, vHeight)
+function LoveKey:start(props)
+  if props then
+    self.vWidth = props.width or 800
+    self.vHeight = props.height or 600
+  end
   self.state = stateManager.new()
-  self.camera = camera.new(vWidth, vHeight)
+  self.camera = camera.new(self.vWidth, self.vHeight)
   self.camera:resize(love.graphics.getWidth(), love.graphics.getHeight())
   self.timer = timer.new()
+  self.collider = require('lovekit.modules.collision') 
+  self.assets = require('lovekit.modules.assets')
 end
 
 function LoveKey:update(dt)

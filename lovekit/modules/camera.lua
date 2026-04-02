@@ -11,20 +11,34 @@ Camera.new = function(vW, vH)
   self.offsetX = 0
   self.offsetY = 0
   self.smooth = false
+  self.smoothTime = 0
   self.target = nil
   self.mouseX = 0
   self.mouseY = 0
   return self
 end
 
-function Camera:setSmooth(smooth)
+function Camera:setSmooth(smooth, time)
   self.smooth = smooth
+  self.smoothTime = time
 end
 
 function Camera:setTarget(target)
   self.target = target
   self.x = target.x
   self.y = target.y
+end
+
+function Camera:getDimensions()
+  return self.vW, self.vH
+end
+
+function Camera:getWidth()
+  return self.vW
+end
+
+function Camera:getHeight()
+  return self.vH
 end
 
 function Camera:resize(w, h)
@@ -37,11 +51,12 @@ function Camera:resize(w, h)
 end
 
 function Camera:update(dt)
+  local t = 1 - math.exp(-dt / self.smoothTime)
   if self.target then
     local tx = self.target.x
     local ty = self.target.y
-    self.x = self.x + (tx - self.x) * 5 * dt
-    self.y = self.y + (ty - self.y) * 5 * dt
+    self.x = self.x + (tx - self.x) * t
+    self.y = self.y + (ty - self.y) * t
   end
   local mx, my = love.mouse.getPosition()
   mx = mx - self.offsetX
