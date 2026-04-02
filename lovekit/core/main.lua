@@ -16,19 +16,24 @@ function LoveKey:start(props)
   self.timer = timer.new()
   self.collider = require('lovekit.modules.collision') 
   self.assets = require('lovekit.modules.assets')
+  self.input = require('lovekit.modules.inputmanager')
 end
 
 function LoveKey:update(dt)
   self.state:update(dt)
   self.camera:update(dt)
   self.timer:update(dt)
+  self.input.keysPressed = {}
+  self.input.keysReleased = {}
 end
 
 function LoveKey:keypressed(key, scancode, isrepeat)
+  self.input.keypressed(key)
   self.state:keypressed(key, scancode, isrepeat)
 end
 
 function LoveKey:keyreleased(key, scancode)
+  self.input.keyreleased(key)
   self.state:keyreleased(key, scancode)
 end
 
