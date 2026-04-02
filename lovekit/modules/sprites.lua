@@ -1,4 +1,4 @@
-Sprites = {}
+local Sprites = {}
 Sprites.__index = Sprites
 
 Sprites.new = function(img, rows, cols, width, height, animList)
@@ -8,7 +8,7 @@ Sprites.new = function(img, rows, cols, width, height, animList)
   self.cols = cols
   self.width = width
   self.height = height
-  -- {nombre, frames, delay, loop, siguienteAnim}
+  -- {name, frames, delay, loop, nextAnim}
   self.animList = animList
   -- variables para control de animacion
   self.frame = 1
@@ -38,7 +38,7 @@ function Sprites:update(dt)
     if self.frame > anim.frames then
       self.frame = 1
       if not anim.loop then
-        self.currentAnim = findNext(self.animList, anim.siguienteAnim)
+        self.currentAnim = findNext(self.animList, anim.nextAnim)
         if self.currentAnim == 0 then
           ret.change = false
           ret.frame = 0
@@ -49,9 +49,9 @@ function Sprites:update(dt)
   return ret
 end
 
-function Sprites:change(nombre)
+function Sprites:change(name)
   for a = 1, #self.animList do
-    if self.animList[a].nombre == nombre then
+    if self.animList[a].name == name then
       self.currentAnim = a
       break
     end
@@ -63,9 +63,9 @@ function Sprites:reset()
   self.time = 0
 end
 
-function findNext(lista, nombre)
+function findNext(lista, name)
   for a = 1, #lista do
-    if lista[a].nombre == nombre then
+    if lista[a].name == name then
       return a
     end
   end
@@ -93,3 +93,5 @@ function Sprites:draw(x, y, r, sx, sy, pX, pY)
   local quad = self.quads[self.currentAnim][self.frame]
   love.graphics.draw(self.img, quad, x, y, r, sx, sy, pX, pY)
 end
+
+return Sprites
